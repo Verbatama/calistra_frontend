@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import MenuChoices from '../components/MenuChoices.vue';
 import flatpickr from 'flatpickr';
 import "flatpickr/dist/flatpickr.css";
+import getHeaders from '../utils/headers';
 
 const inputRef = ref(null);
 const searchQuery = ref('');
@@ -28,7 +29,7 @@ onMounted(() => {
 
 const loadBarangs = async () => {
   try {
-    const res = await fetch('http://localhost:8700/api/barang/stok/all');
+    const res = await fetch('http://localhost:8700/api/barang/stok/all', {headers:getHeaders()});
     const json = await res.json();
     if (json.success) listProduk.value = json.data;
   } catch (err) {
@@ -38,7 +39,7 @@ const loadBarangs = async () => {
 
 const loadPenjualan = async () => {
   try {
-    const res = await fetch('http://localhost:8700/api/penjualan');
+    const res = await fetch('http://localhost:8700/api/penjualan', {headers:getHeaders()});
     const json = await res.json();
     if (json.success) penjualanList.value = json.data;
   } catch (err) {
@@ -158,7 +159,7 @@ const handleKonfirmasi = async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
-    });
+    }, {headers:getHeaders()});
     const json = await res.json();
     if (res.ok && json.success) {
       alert('Penjualan berhasil dicatat!');

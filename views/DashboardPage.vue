@@ -1,7 +1,10 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import Card from '../components/Card.vue';
+
 import MenuChoices from '../components/MenuChoices.vue';
+import getHeaders  from '../utils/headers'
+
+
 
 const summaryData = ref(null);
 const penjualanLogs = ref([]);
@@ -17,9 +20,11 @@ const loadDashboardData = async () => {
   isLoading.value = true;
   currentPage.value = 1; // Reset ke page 1
   try {
+  
+
     const [summaryRes, logsRes] = await Promise.all([
-      fetch('http://localhost:8700/api/penjualan/summary/dashboard'),
-      fetch('http://localhost:8700/api/penjualan'),
+      fetch('http://localhost:8700/api/penjualan/summary/dashboard', {headers: getHeaders()   } ),
+      fetch('http://localhost:8700/api/penjualan', {headers: getHeaders()} ),
     ]);
 
     const summaryJson = await summaryRes.json();

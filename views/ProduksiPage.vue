@@ -3,7 +3,7 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.css";
 import { onMounted, ref, computed } from "vue";
 import MenuChoices from "../components/MenuChoices.vue";
-
+import getHeaders from "../utils/headers";
 const inputRef = ref(null);
 const searchQuery = ref("");
 const selectedProduk = ref(null);
@@ -25,7 +25,7 @@ onMounted(() => {
 
 const loadBarangs = async () => {
     try {
-        const res = await fetch("http://localhost:8700/api/barang");
+        const res = await fetch("http://localhost:8700/api/barang", {headers:getHeaders()});
         const json = await res.json();
         if (json.success) listProduk.value = json.data;
     } catch (err) {
@@ -68,7 +68,7 @@ const onBlurSearch = () => {
 
 const loadProduksi = async () => {
     try {
-        const res = await fetch("http://localhost:8700/api/produksi");
+        const res = await fetch("http://localhost:8700/api/produksi", {headers:getHeaders()});
         const json = await res.json();
         if (json.success) {
             produksiList.value = json.data;

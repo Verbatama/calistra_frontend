@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import MenuChoices from '../components/MenuChoices.vue';
+import getHeaders from '../utils/headers';
+
 
 const barangId = ref(null);
 const barangNama = ref('');
@@ -38,7 +40,8 @@ onMounted(async () => {
 
 const loadBahan = async () => {
     try {
-        const res = await fetch('http://localhost:8700/api/bahan');
+        
+        const res = await fetch('http://localhost:8700/api/bahan', {headers: getHeaders()});
         const json = await res.json();
         if (json.success) bahanList.value = json.data;
     } catch (err) {
@@ -48,7 +51,7 @@ const loadBahan = async () => {
 
 const loadSatuan = async () => {
     try {
-        const res = await fetch('http://localhost:8700/api/satuan');
+        const res = await fetch('http://localhost:8700/api/satuan', {headers: getHeaders()});
         const json = await res.json();
         if (json.success) satuanList.value = json.data;
     } catch (err) {
@@ -174,7 +177,7 @@ const konfirmasi = async () => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-        });
+        }, {headers:getHeaders()});
         const json = await res.json();
         if (res.ok && json.success) {
             sessionStorage.removeItem('pendingProduksi');

@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import MenuChoices from '../components/MenuChoices.vue';
+import getHeaders from '../utils/headers';
 
 const namaBarang = ref('');
 const isSubmitting = ref(false);
@@ -12,7 +13,7 @@ onMounted(() => {
 
 const loadBarang = async () => {
   try {
-    const res = await fetch('http://localhost:8700/api/barang');
+    const res = await fetch('http://localhost:8700/api/barang', {headers:getHeaders()});
     const json = await res.json();
     if (json.success) {
       barangList.value = json.data || [];
@@ -35,7 +36,7 @@ const simpanBarang = async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nama_barang: value }),
-    });
+    }, {headers:getHeaders()});
 
     const json = await res.json();
     if (res.ok && json.success) {
